@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="Tiles_2" tilewidth="50" tileheight="50">
+  <image source="Tiles_2.png" width="400" height="150"/>
+ </tileset>
+ <tileset firstgid="25" name="Exit" tilewidth="50" tileheight="50">
+  <image source="Exit.png" width="350" height="200"/>
+ </tileset>
+ <layer name="Background" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt2MeqAkEURdFudWKYGCbmnHP4/2/zDASxbbAQirrV7MHGQC84k8vjmSZJkv6oqpoOz+HxRfTW9+Hx3Aceb9Nb34fHcx94vE1vfR8eH8qXHaqrtuOzeHyRfCn5vJe8zzXVer3/Jzw+Zp9mXrPfh96Hx1u6D/5+4PHv8u7D0j48PvR98P8HHv9dxaGG6jg+i8cXyVv//RmPD+2t78PjuY8wvqt6qq8GaqhGahzJfrx/b32fTz9RUzVTc7VQS7WKZD/ev7e+z6dfq43aqp3aq4M6RrIf799b3+fTn9RZXdRV3dRdPSLZj/fvre/D40P5J4BsMfQ=
+  </data>
+ </layer>
+ <layer name="Collision elements" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztl91uwyAMhXPTbTdbdxN17/+kS6REihAuNv4jxp+EiGhjMCHnOMuSJEmSJEmSJEmSzMJ6s//OwLrknmhC2d8fQtxvwn814kY/N2d++35Q9u+OeD7Lx9Y+nObWRCov6NlIjfeu58wv6vO74qkBUfVHKi8ojtQ4ltIvyj4ynhoQVX+k8oLiSI23gPxidv9YF5u6K6r+3N0/Wn4xu39oa0OpS9E481o7WxkHis8dL8H6RUT/gPygpgHa2hBdf7C629JjK/+g+kXE50fRFm1tKPWnV2dHbdDeYc7a9T5t/+j1i4j+QdEWa//Q7mt4zdvCwj9qflFbBzZPS+3ppXW/pn9I6WsNjo5R5rnq94O5Do6uXv0U8lfueC0/CuU7Yql33DVDjOQf0liudeS63OKc7Xxu7eu43uNx6zNK3+s7kO6djPT9MRuadYMHz639Htf7GbGulzX8Z2T/sDovXudSW88lwbzDr639HdfW/sHtIUb6/oDqY6qPttYD5fpuHmwsCpp1A3dtUB1S66G6ZQRfGNk/vPKFzgv0OyZueQ80Tmle+4BpEvP/A12YNwM=
+  </data>
+ </layer>
+</map>

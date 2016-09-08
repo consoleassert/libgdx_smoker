@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="400" height="20" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="Tiles_3" tilewidth="50" tileheight="50">
+  <image source="Tiles_3.png" width="400" height="150"/>
+ </tileset>
+ <layer name="Background" width="400" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt2r0KgzAUBtBEXapdqr7/szaDi6HgrYtizvCRH+6BbJeQ5JRSPsir5BOo43me53me53me53me53me53me53me53me53meb8n3gUwlS7CW53meb8N3ad9Pfq3HknmbnwnP8zz/TJ+rsd6/+/l5nuf5a3zdP9w/eJ7n+Yh3/+B5nufPeO8fPM/z/L9+CORdsgZreZ7n+Tb81f+HeZ7neZ7neZ7neZ7neZ7neZ7neZ7neZ7neZ7neZ7neb4l/wW2j12q
+  </data>
+ </layer>
+ <layer name="Collision elements" width="400" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztmstuxCAMRWfTx6aPTdX+/5c2s0BCyAQCBmxyjoSsTDIkGAi+Do8HAIB9Xo/y0mgD8e9SvdJ1o+pd3S6N5wQA8MDnUT4abSD+XapXum5UvavbpfGcAAAeQH+gPwAAWkB/oD8AAFpAf6A/ACzxk5TSddbPl67zDPoD/QFghed7tjae8nI+2B3XEPQH+mNHemO+nWNGqzz9fSWe8nI+tpbGFGNclxXxf7p2eNIfqT63NB6DT3PPWCrpOg/6pD7fPX6KdYiF+bK7v2ezwp9pjOKpP0v5v5X05C+lPCPo8nxv3tHf0jhbtYZYmq87gP6wSS5OWx2/QRuxvrtj3lbKm68Yx2d+b9XtForUhp7fau+X05cjiyX9UfLPKuI4TfId2OZszEN+fGuT1ns2f7T0+wqbtm/0/iupHgvtn01pP8Eqavc7gD3i7xqShTzaa0huP08PGvuULKLZjhb/jHwej5RiKitaB/R49iffl2Rqxrr2fq1cvNyDxzi5hpnt0JgX6fe0WTnCWZT2Q3mPR0fkba0fl0pNvDRjrFssZ3nywJV8eg3oj3q8tSN+nhl5stlYfS4tNPolvAu8HGPn5K9b5026tljTH6vX8LPi7TtEfN/W9bwnvwZtxPHkjH7D7m9zXJ3POb3xdpT3ivvVYMFfXq2Gf6XrdtQfu2IhXsXuZa/kpM7I6Y2vo3wL51uw4K87W6kfZqx/0Ae6Azva9q4jaZwbjn+P8iecb8GCn+5spX6YuW5BG6vjDux97NXcfSD9f+64Bwv+ubOV+uEfOyF6eA==
+  </data>
+ </layer>
+</map>
