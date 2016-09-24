@@ -1,12 +1,13 @@
 package cns.ass.smoker;
 
+import cns.ass.smoker.screen.AbstractScreen;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 
 /**
  * Created by Ad on 10.09.2016.
  */
-public class GameScreen extends ScreenAdapter implements InputProcessor {
+public class GameScreen extends AbstractScreen implements InputProcessor {
 
 
     @Override
@@ -48,4 +49,5 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
 }

@@ -1,0 +1,39 @@
+menu_atlas.png
+format: RGBA4444
+filter: Linear,Linear
+repeat: none
+main_menu_bg
+  rotate: false
+  xy: 511, 0
+  size: 1276, 638
+  orig: 1276, 638
+  offset: 0, 0
+  index: -1
+logo_title
+  rotate: false
+  xy: 0, 0
+  size: 500, 135
+  orig: 530, 165
+  offset: 10, 21
+  index: -1
+menu_button_pressed_bg
+  rotate: false
+  xy: 637, 649
+  size: 622, 172
+  orig: 626, 176
+  offset: 0, 4
+  index: -1
+menu_button_bg
+  rotate: false
+  xy: 0, 649
+  size: 626, 176
+  orig: 626, 176
+  offset: 0, 0
+  index: -1
+menu_player
+  rotate: false
+  xy: 1270, 649
+  size: 74, 75
+  orig: 74, 75
+  offset: 0, 0
+  index: -1

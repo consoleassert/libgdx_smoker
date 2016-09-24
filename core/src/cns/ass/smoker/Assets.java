@@ -20,10 +20,24 @@ public class Assets {
         return new Texture(Gdx.files.internal(file));
     }
 
+    public static Sprite smokerStatic() {
+        return new Sprite(loadTexture("sprites/Player_inhale_exhale.png"), 0, 0, 75, 75);
+    }
+
     public static Texture getMenuBackground() {
         Texture background = loadTexture("sprites/main_menu_bg.png");
-        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+//        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         return background;
+    }
+
+    public static Texture getMenuButtonNormalTexture() {
+        Texture texture = loadTexture("sprites/menu_button_bg.png");
+        return texture;
+    }
+
+    public static Texture getMenuButtonSelectedTexture() {
+        Texture texture = loadTexture("sprites/menu_button_pressed_bg.png");
+        return texture;
     }
 
     public static TextureRegion getLogo() {

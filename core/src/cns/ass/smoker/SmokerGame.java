@@ -1,5 +1,7 @@
 package cns.ass.smoker;
 
+import cns.ass.smoker.screen.ScreenEnum;
+import cns.ass.smoker.screen.ScreenManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -9,10 +11,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SmokerGame extends Game {
 
+
+	private ScreenManager instance;
+
 	@Override
 	public void create () {
 		Assets.load();
-		setScreen(new MainMenuScreen(this));
+		instance = ScreenManager.getInstance();
+		instance.initialize(this);
+		instance.showScreen(ScreenEnum.MAIN_MENU, "sprites/menu_atlas.txt");
 	}
 
 	@Override

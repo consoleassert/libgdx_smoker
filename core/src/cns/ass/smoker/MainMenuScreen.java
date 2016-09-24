@@ -1,127 +1,142 @@
 package cns.ass.smoker;
 
+import cns.ass.smoker.screen.AbstractScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * Created by Ad on 08.09.2016.
  */
-public class MainMenuScreen extends ScreenAdapter implements InputProcessor{
+public class MainMenuScreen extends AbstractScreen implements InputProcessor {
+    private static final String TAG = MainMenuScreen.class.getName();
     public static final int PLAY = 0;
     public static final int EXIT = 1;
-    SpriteBatch batcher = new SpriteBatch();
-    Stage stage;
-    SmokerGame smokerGame;
-    OrthographicCamera guiCam;
     Skin skin;
     int currentMenuState = PLAY;
-    private final TextButton playButton;
-    private final TextButton exitButton;
+    private TextButton playButton;
+    private TextButton exitButton;
+    private Body body;
+    private Sprite smokerStatic;
+    float angleSpeed = 1f;
 
-    public MainMenuScreen (SmokerGame smokerGame) {
-        this.smokerGame = smokerGame;
+    public void init(SmokerGame smokerGame, String atlasFile) {
+        super.init(smokerGame, atlasFile);
+        smokerStatic = new Sprite(textures.get("menu_player"), 0, 0, 75, 75);
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(new Vector2(0, 15));
+        body = world.createBody(bodyDef);
+        PolygonShape groundBox = new PolygonShape();
+        groundBox.setAsBox(smokerStatic.getWidth() * 0.5f, smokerStatic.getHeight() * 0.5f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = groundBox;
+        fixtureDef.density = 0f;
+        fixtureDef.friction = 0f;
+        fixtureDef.restitution = 0.6f; // Make it bounce a little bit
 
-        guiCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        guiCam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+        Fixture fixture = body.createFixture(fixtureDef);
+        body.setUserData(smokerStatic);
+        body.setFixedRotation(false);
+        body.applyLinearImpulse(20 * 10, 20 * 10, 0, 0, true);
 
-        stage = new Stage();
-        Gdx.input.setInputProcessor(this);
-
-        skin = new Skin();
-
-
-        // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-
-        // Store the default libgdx font under the name "default".
-        skin.add("default", new BitmapFont());
-
-        // Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-        textButtonStyle.font = skin.getFont("default");
-        skin.add("default", textButtonStyle);
-
-        // Create a table that fills the screen. Everything else will go inside this table.
-        Table table = new Table();
-        table.setFillParent(true);
-        table.setColor(Color.BLUE);
-        stage.addActor(table);
-
-//         Create a button with the "default" TextButtonStyle. A 3rd parameter can be used to specify a name other than "default".
-        playButton = new TextButton("Play", skin);
-        exitButton = new TextButton("Exit", skin);
-        table.add(playButton).size(100, 60);
-        table.row();
-        table.row();
-        table.add(exitButton).size(100, 60);
-//        table.add(button);
-
-        stage.setDebugAll(true);
-
-        // Add an image actor. Have to set the size, else it would be the size of the drawable (which is the 1x1 texture).
-//        table.add(new Image(skin.newDrawable("white", Color.RED))).size(64);
+        body.applyLinearImpulse(100, 100, 0, 0, true);
 
     }
 
-
-
-    public void update () {
-        if(currentMenuState == PLAY) {
-            exitButton.setChecked(false);
-            playButton.setChecked(true);
-        } else if(currentMenuState == EXIT) {
-            playButton.setChecked(false);
-            exitButton.setChecked(true);
-        }
+    protected void initTextures(String atlasName) {
+        super.initTextures(atlasName);
     }
 
     @Override
-    public void resize (int width, int height) {
+    public void initUI() {
+        skin = new Skin();
+        BitmapFont buttonFont = generator.generateFont(parameter);
+        Pixmap pixmap = new Pixmap(100, 60, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("test", pixmap);
+
+        skin.add("button_normal", textures.get("menu_button_bg"));
+        skin.add("button_selected", textures.get("menu_button_pressed_bg"));
+        skin.add("default", buttonFont);
+
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("button_normal");
+        textButtonStyle.down = skin.newDrawable("button_normal");
+        textButtonStyle.checked = skin.newDrawable("button_selected");
+        textButtonStyle.over = skin.newDrawable("button_normal");
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+        Table table = new Table();
+        table.setColor(Color.RED);
+        table.setWidth(Gdx.graphics.getWidth());
+        table.setHeight(150);
+        stage.addActor(table);
+
+        playButton = new TextButton("Play", skin);
+        exitButton = new TextButton("Exit", skin);
+        table.add(playButton).size(100, 60);
+        table.add(new Container<Actor>()).width(50);
+        table.add(exitButton).size(100, 60);
+
+//        stage.setDebugAll(true);
+    }
+
+
+    public void update() {
+        if (currentMenuState == PLAY) {
+            exitButton.setChecked(false);
+            playButton.setChecked(true);
+        } else if (currentMenuState == EXIT) {
+            playButton.setChecked(false);
+            exitButton.setChecked(true);
+        }
+
+        body.setTransform(body.getPosition().x, body.getPosition().y, body.getAngle() + angleSpeed);
+    }
+
+    @Override
+    public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
-    public void draw () {
+    public void draw() {
         GL20 gl = Gdx.gl;
         gl.glClearColor(1, 0, 0, 1);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.getBatch().begin();
-        stage.getBatch().draw(Assets.getMenuBackground(), 0, 0, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        TextureRegion logo = Assets.getLogo();
-        Texture logoTitle = Assets.getLogoTitle();
-        int logoTitleWidth = logoTitle.getWidth() / 2;
-        int logoTitleHeight = logoTitle.getHeight() / 2;
-        stage.getBatch().draw(new TextureRegion(logoTitle), Assets.getScreenCenterWidth() - (logoTitleWidth /2), Assets.getScreenCenterHeight() + logoTitleHeight, 0 , 0, logoTitleWidth, logoTitleHeight, 1f, 1f, 1f);
-        stage.getBatch().draw(logo, Assets.getScreenCenterWidth() + (logo.getRegionWidth() /2) + (logoTitleWidth /2), Assets.getScreenCenterHeight() + logo.getRegionHeight());
+        stage.getBatch().draw(textures.get("main_menu_bg"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        TextureRegion logoTitle = textures.get("logo_title");
+        int logoTitleWidth = logoTitle.getRegionWidth() / 2;
+        int logoTitleHeight = logoTitle.getRegionHeight() / 2;
+        stage.getBatch().draw(new TextureRegion(logoTitle), Assets.getScreenCenterWidth() - (logoTitleWidth / 2), Assets.getScreenCenterHeight() + logoTitleHeight, 0, 0, logoTitleWidth, logoTitleHeight, 1f, 1f, 1f);
+        Vector3 vector3 = new Vector3(body.getPosition(), 0f);
+        Vector3 project = camera.project(vector3);
+        smokerStatic.setCenter(project.x, project.y);
+        smokerStatic.setRotation(body.getAngle());
+        smokerStatic.draw(stage.getBatch());
         stage.getBatch().end();
-
-//        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 
         stage.draw();
 
+//        debugRenderer.render(world, camera.combined);
     }
 
     @Override
@@ -132,9 +147,11 @@ public class MainMenuScreen extends ScreenAdapter implements InputProcessor{
     }
 
     @Override
-    public void render (float delta) {
+    public void render(float delta) {
         update();
         draw();
+        world.step(1 / 60f, 6, 2);
+        Gdx.graphics.setTitle(String.format("fps: %d", Gdx.graphics.getFramesPerSecond()));
     }
 
     @Override
@@ -144,14 +161,16 @@ public class MainMenuScreen extends ScreenAdapter implements InputProcessor{
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.UP || keycode == Input.Keys.DOWN) {
+        if (keycode == Input.Keys.UP || keycode == Input.Keys.DOWN || keycode == Input.Keys.LEFT || keycode == Input.Keys.RIGHT) {
             currentMenuState = currentMenuState == PLAY ? EXIT : PLAY;
-        } else if(keycode == Input.Keys.ENTER) {
-            if(currentMenuState == PLAY) {
+        } else if (keycode == Input.Keys.ENTER) {
+            if (currentMenuState == PLAY) {
                 smokerGame.setScreen(new GameScreen());
             } else {
                 Gdx.app.exit();
             }
+        } else if (keycode == Input.Keys.ESCAPE) {
+            Gdx.app.exit();
         }
         return false;
     }
