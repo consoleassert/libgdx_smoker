@@ -1,0 +1,88 @@
+level_1_atlas.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Player_moving
+  rotate: false
+  xy: 2, 156
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 5
+Player_stay
+  rotate: false
+  xy: 156, 233
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 2
+Player_moving
+  rotate: false
+  xy: 2, 79
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 2
+Player_stay
+  rotate: false
+  xy: 79, 233
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 1
+Player_moving
+  rotate: false
+  xy: 79, 79
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 3
+Player_moving
+  rotate: false
+  xy: 124, 2
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 1
+Enemy_1_atlas
+  rotate: false
+  xy: 2, 2
+  size: 62, 72
+  orig: 74, 72
+  offset: 0, 0
+  index: 1
+Enemy_1_atlas
+  rotate: false
+  xy: 66, 2
+  size: 56, 72
+  orig: 76, 72
+  offset: 16, 0
+  index: 2
+Player_moving
+  rotate: false
+  xy: 2, 233
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 8
+Player_moving
+  rotate: false
+  xy: 79, 156
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 6
+Player_moving
+  rotate: false
+  xy: 156, 156
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 7
+Player_moving
+  rotate: false
+  xy: 156, 79
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: 4

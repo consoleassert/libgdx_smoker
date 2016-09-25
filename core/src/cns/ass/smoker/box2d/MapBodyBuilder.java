@@ -1,4 +1,4 @@
-package cns.ass.smoker;
+package cns.ass.smoker.box2d;
 
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapObject;

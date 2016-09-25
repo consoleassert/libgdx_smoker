@@ -1,7 +1,8 @@
-package cns.ass.smoker;
+package cns.ass.smoker.screen;
 
-import cns.ass.smoker.screen.AbstractScreen;
-import cns.ass.smoker.screen.ScreenEnum;
+import cns.ass.smoker.Assets;
+import cns.ass.smoker.SmokerGame;
+import cns.ass.smoker.box2d.PhysicsHelper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -58,6 +58,14 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
 
         body.applyLinearImpulse(100, 100, 0, 0, true);
 
+    }
+
+    @Override
+    protected void initWorldBounds() {
+        PhysicsHelper.getInstance().setWorldWall(world, new Vector2(0, (float) (-Gdx.graphics.getHeight() * 0.5) - 10), camera.viewportWidth, 10.0f);
+        PhysicsHelper.getInstance().setWorldWall(world, new Vector2(0, (float) (Gdx.graphics.getHeight() * 0.5) + 10), camera.viewportWidth, 10.0f);
+        PhysicsHelper.getInstance().setWorldWall(world, new Vector2((float) ((Gdx.graphics.getWidth() * 0.5) + 10), 0), 10.0f, camera.viewportHeight);
+        PhysicsHelper.getInstance().setWorldWall(world, new Vector2(-(float) ((Gdx.graphics.getWidth() * 0.5) + 10), 0), 10.0f, camera.viewportHeight);
     }
 
     protected void initTextures(String atlasName) {
@@ -136,7 +144,6 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
         smokerStatic.setRotation(body.getAngle());
         smokerStatic.draw(stage.getBatch());
         stage.getBatch().end();
-
         stage.draw();
 
 //        debugRenderer.render(world, camera.combined);
@@ -164,7 +171,7 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
             currentMenuState = currentMenuState == PLAY ? EXIT : PLAY;
         } else if (keycode == Input.Keys.ENTER) {
             if (currentMenuState == PLAY) {
-                smokerGame.showScreen(ScreenEnum.GAME_SCREEN, "sprites/menu_atlas.txt");
+                smokerGame.showScreen(ScreenEnum.GAME_SCREEN, "sprites/level_1_atlas.txt");
             } else {
                 Gdx.app.exit();
             }

@@ -1,6 +1,6 @@
 package cns.ass.smoker.screen;
 
-import cns.ass.smoker.PhysicsHelper;
+import cns.ass.smoker.box2d.PhysicsHelper;
 import cns.ass.smoker.SmokerGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -79,12 +79,7 @@ public abstract class AbstractScreen extends ScreenAdapter implements InputProce
         throw new RuntimeException("Not implemented");
     }
 
-    protected void initWorldBounds() {
-        PhysicsHelper.getInstance().setWorldWall(world, new Vector2(0, (float) (-Gdx.graphics.getHeight() * 0.5) - 10), camera.viewportWidth, 10.0f);
-        PhysicsHelper.getInstance().setWorldWall(world, new Vector2(0, (float) (Gdx.graphics.getHeight() * 0.5) + 10), camera.viewportWidth, 10.0f);
-        PhysicsHelper.getInstance().setWorldWall(world, new Vector2((float) ((Gdx.graphics.getWidth() * 0.5) + 10), 0), 10.0f, camera.viewportHeight);
-        PhysicsHelper.getInstance().setWorldWall(world, new Vector2(-(float) ((Gdx.graphics.getWidth() * 0.5) + 10), 0), 10.0f, camera.viewportHeight);
-    }
+    protected abstract void initWorldBounds();
 
     @Override
     public void render(float delta) {
