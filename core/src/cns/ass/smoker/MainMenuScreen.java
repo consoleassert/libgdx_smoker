@@ -1,6 +1,7 @@
 package cns.ass.smoker;
 
 import cns.ass.smoker.screen.AbstractScreen;
+import cns.ass.smoker.screen.ScreenEnum;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -98,7 +100,7 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
 //        stage.setDebugAll(true);
     }
 
-
+    @Override
     public void update() {
         if (currentMenuState == PLAY) {
             exitButton.setChecked(false);
@@ -113,9 +115,10 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        super.resize(width, height);
     }
 
+    @Override
     public void draw() {
         GL20 gl = Gdx.gl;
         gl.glClearColor(1, 0, 0, 1);
@@ -142,16 +145,12 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
     @Override
     public void dispose() {
         super.dispose();
-        stage.dispose();
         skin.dispose();
     }
 
     @Override
     public void render(float delta) {
-        update();
-        draw();
-        world.step(1 / 60f, 6, 2);
-        Gdx.graphics.setTitle(String.format("fps: %d", Gdx.graphics.getFramesPerSecond()));
+        super.render(delta);
     }
 
     @Override
@@ -165,7 +164,7 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
             currentMenuState = currentMenuState == PLAY ? EXIT : PLAY;
         } else if (keycode == Input.Keys.ENTER) {
             if (currentMenuState == PLAY) {
-                smokerGame.setScreen(new GameScreen());
+                smokerGame.showScreen(ScreenEnum.GAME_SCREEN, "sprites/menu_atlas.txt");
             } else {
                 Gdx.app.exit();
             }

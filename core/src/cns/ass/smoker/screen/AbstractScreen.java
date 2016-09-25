@@ -33,8 +33,8 @@ public abstract class AbstractScreen extends ScreenAdapter implements InputProce
 
     protected void init(SmokerGame smokerGame, String atlasFile) {
         this.smokerGame = smokerGame;
-        initCamera();
         initStage();
+        initCamera();
         initFonts();
         initWorld();
         initTextures(atlasFile);
@@ -60,6 +60,7 @@ public abstract class AbstractScreen extends ScreenAdapter implements InputProce
     protected void initWorld() {
         world = new World(new Vector2(0, 0), true);
         debugRenderer = new Box2DDebugRenderer();
+
         initWorldBounds();
     }
 
@@ -84,6 +85,19 @@ public abstract class AbstractScreen extends ScreenAdapter implements InputProce
         PhysicsHelper.getInstance().setWorldWall(world, new Vector2((float) ((Gdx.graphics.getWidth() * 0.5) + 10), 0), 10.0f, camera.viewportHeight);
         PhysicsHelper.getInstance().setWorldWall(world, new Vector2(-(float) ((Gdx.graphics.getWidth() * 0.5) + 10), 0), 10.0f, camera.viewportHeight);
     }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        update();
+        draw();
+        Gdx.graphics.setTitle(String.format("fps: %d", Gdx.graphics.getFramesPerSecond()));
+        world.step(1 / 60f, 6, 2);
+    }
+
+    protected abstract void draw();
+
+    protected abstract void update();
 
     @Override
     public boolean keyDown(int keycode) {
@@ -128,7 +142,13 @@ public abstract class AbstractScreen extends ScreenAdapter implements InputProce
     @Override
     public void dispose() {
         super.dispose();
-        textureAtlas.dispose();
         stage.dispose();
+        textureAtlas.dispose();
+        textures.clear();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 }

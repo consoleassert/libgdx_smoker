@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="100" height="20" tilewidth="50" tileheight="50">
- <tileset firstgid="1" name="Tiles" tilewidth="50" tileheight="50">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="50" tileheight="50" nextobjectid="11">
+ <tileset firstgid="1" name="Tiles" tilewidth="50" tileheight="50" tilecount="24" columns="8">
   <image source="Tiles.png" width="400" height="150"/>
  </tileset>
  <layer name="Background" width="100" height="20" opacity="0.99">
@@ -13,4 +13,15 @@
    eJztlcEKhDAMRL24enH1Ivr/X2pYUCSgteKYwr4HQ25JCp1JVUGJNKY2egnY6E1D9BKwMZnm6CXgx+gEsXSm764CAKjw+c89iMXnP/cA3iDK/6n8+dccivJ/Kn9WAYCWq9l4N0NVfdXvUN+Eo3mpbMytHlVf1Zy3btPZLfqY6oeqR9VXNSd37l2O5uGPsvyh/k/4I29f/FGWPxaWqhbf
   </data>
  </layer>
+ <objectgroup name="collision">
+  <object id="1" x="2633.33" y="700" width="957.576" height="290.909"/>
+  <object id="2" x="3651.52" y="500" width="500" height="96.9697"/>
+  <object id="3" x="4248.48" y="348.485" width="396.97" height="93.9394"/>
+  <object id="4" x="4703.03" y="696.97" width="309.091" height="300"/>
+  <object id="6" x="2500" y="696.97" width="136.364" height="296.97"/>
+  <object id="7" x="2145.45" y="500" width="300" height="96.9697"/>
+  <object id="8" x="1203.03" y="700" width="900" height="300"/>
+  <object id="9" x="-6.06061" y="693.939" width="1003.03" height="303.03"/>
+  <object id="10" x="51.5152" y="193.939" width="190.909" height="100"/>
+ </objectgroup>
 </map>

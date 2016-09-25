@@ -19,7 +19,11 @@ public class SmokerGame extends Game {
 		Assets.load();
 		instance = ScreenManager.getInstance();
 		instance.initialize(this);
-		instance.showScreen(ScreenEnum.MAIN_MENU, "sprites/menu_atlas.txt");
+		showScreen(ScreenEnum.MAIN_MENU, "sprites/menu_atlas.txt");
+	}
+
+	public void showScreen(ScreenEnum screen, String atlas) {
+		instance.showScreen(screen, atlas);
 	}
 
 	@Override
