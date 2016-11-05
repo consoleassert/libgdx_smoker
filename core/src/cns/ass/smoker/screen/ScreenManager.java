@@ -34,14 +34,14 @@ public class ScreenManager {
     }
 
     // Show in the game the screen which enum type is received
-    public void showScreen(ScreenEnum screenEnum, String atlasName) {
+    public void showScreen(ScreenEnum screenEnum, ScreenOptions so) {
 
         // Get current screen to dispose it
         Screen currentScreen = game.getScreen();
 
         // Show new screen
         AbstractScreen newScreen = screenEnum.getScreen();
-        newScreen.init(game, atlasName);
+        newScreen.init(game, so);
         game.setScreen(newScreen);
 
         // Dispose previous screen

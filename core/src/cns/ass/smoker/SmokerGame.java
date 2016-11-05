@@ -2,28 +2,25 @@ package cns.ass.smoker;
 
 import cns.ass.smoker.screen.ScreenEnum;
 import cns.ass.smoker.screen.ScreenManager;
-import com.badlogic.gdx.ApplicationAdapter;
+import cns.ass.smoker.screen.ScreenOptions;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SmokerGame extends Game {
 
 
-	private ScreenManager instance;
+	private ScreenManager screenManager;
 
 	@Override
 	public void create () {
 		Assets.load();
-		instance = ScreenManager.getInstance();
-		instance.initialize(this);
-		showScreen(ScreenEnum.MAIN_MENU, "sprites/menu_atlas.txt");
+		screenManager = ScreenManager.getInstance();
+		screenManager.initialize(this);
+		ScreenOptions so = new ScreenOptions("sprites/menu_atlas.txt");
+		showScreen(ScreenEnum.MAIN_MENU, so);
 	}
 
-	public void showScreen(ScreenEnum screen, String atlas) {
-		instance.showScreen(screen, atlas);
+	public void showScreen(ScreenEnum screen, ScreenOptions so) {
+		screenManager.showScreen(screen, so);
 	}
 
 	@Override

@@ -14,8 +14,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Ad on 25.09.2016.
@@ -25,19 +27,21 @@ public abstract class AbstractScreen extends ScreenAdapter implements InputProce
     protected OrthographicCamera camera;
     protected Stage stage;
     protected SmokerGame smokerGame;
-    protected HashMap<String, TextureRegion> textures = new HashMap<String, TextureRegion>();
+    protected HashMap<String, List<TextureRegion>> textures = new HashMap<String, List<TextureRegion>>();
     protected TextureAtlas textureAtlas;
     protected FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     protected World world;
     protected Box2DDebugRenderer debugRenderer;
+    protected ScreenOptions screenOptions;
 
-    protected void init(SmokerGame smokerGame, String atlasFile) {
+    protected void init(SmokerGame smokerGame, ScreenOptions so) {
+        this.screenOptions = so;
         this.smokerGame = smokerGame;
         initStage();
         initCamera();
         initFonts();
         initWorld();
-        initTextures(atlasFile);
+        initTextures();
         initUI();
         Gdx.input.setInputProcessor(this);
     }
@@ -64,14 +68,21 @@ public abstract class AbstractScreen extends ScreenAdapter implements InputProce
         initWorldBounds();
     }
 
-    protected void initTextures(String atlasFile) {
+    protected void initTextures() {
+        String atlasFile = screenOptions.getLevelAtlasName();
         textureAtlas = new TextureAtlas(atlasFile);
         TextureRegion textureRegion;
         Iterator<TextureAtlas.AtlasRegion> iterator = textureAtlas.getRegions().iterator();
         while(iterator.hasNext()) {
             TextureAtlas.AtlasRegion next = iterator.next();
             textureRegion = new TextureRegion(next.getTexture(), next.getRegionX(), next.getRegionY(), next.getRegionWidth(), next.getRegionHeight());
-            textures.put(next.name, textureRegion);
+            if(textures.containsKey(next.name)) {
+                textures.get(next.name).add(textureRegion);
+            } else {
+                List<TextureRegion> textureRegionList = new ArrayList<TextureRegion>();
+                textureRegionList.add(textureRegion);
+                textures.put(next.name, textureRegionList);
+            }
         }
     }
 

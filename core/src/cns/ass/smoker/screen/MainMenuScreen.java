@@ -36,9 +36,9 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
     private Sprite smokerStatic;
     float angleSpeed = 1f;
 
-    public void init(SmokerGame smokerGame, String atlasFile) {
-        super.init(smokerGame, atlasFile);
-        smokerStatic = new Sprite(textures.get("menu_player"), 0, 0, 75, 75);
+    public void init(SmokerGame smokerGame, ScreenOptions so) {
+        super.init(smokerGame, so);
+        smokerStatic = new Sprite(textures.get("menu_player").get(0), 0, 0, 75, 75);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(new Vector2(0, 15));
@@ -69,7 +69,7 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
     }
 
     protected void initTextures(String atlasName) {
-        super.initTextures(atlasName);
+        super.initTextures();
     }
 
     @Override
@@ -81,8 +81,8 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
         pixmap.fill();
         skin.add("test", pixmap);
 
-        skin.add("button_normal", textures.get("menu_button_bg"));
-        skin.add("button_selected", textures.get("menu_button_pressed_bg"));
+        skin.add("button_normal", textures.get("menu_button_bg").get(0));
+        skin.add("button_selected", textures.get("menu_button_pressed_bg").get(0));
         skin.add("default", buttonFont);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
@@ -133,8 +133,8 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.getBatch().begin();
-        stage.getBatch().draw(textures.get("main_menu_bg"), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        TextureRegion logoTitle = textures.get("logo_title");
+        stage.getBatch().draw(textures.get("main_menu_bg").get(0), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        TextureRegion logoTitle = textures.get("logo_title").get(0);
         int logoTitleWidth = logoTitle.getRegionWidth() / 2;
         int logoTitleHeight = logoTitle.getRegionHeight() / 2;
         stage.getBatch().draw(new TextureRegion(logoTitle), Assets.getScreenCenterWidth() - (logoTitleWidth / 2), Assets.getScreenCenterHeight() + logoTitleHeight, 0, 0, logoTitleWidth, logoTitleHeight, 1f, 1f, 1f);
@@ -171,7 +171,8 @@ public class MainMenuScreen extends AbstractScreen implements InputProcessor {
             currentMenuState = currentMenuState == PLAY ? EXIT : PLAY;
         } else if (keycode == Input.Keys.ENTER) {
             if (currentMenuState == PLAY) {
-                smokerGame.showScreen(ScreenEnum.GAME_SCREEN, "sprites/level_1_atlas.txt");
+                ScreenOptions so = new ScreenOptions("sprites/level_1_atlas.txt", "maps/level_1/Map 01.tmx");
+                smokerGame.showScreen(ScreenEnum.GAME_SCREEN, so);
             } else {
                 Gdx.app.exit();
             }
