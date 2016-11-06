@@ -58,9 +58,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             position.y  = mapObject.getProperties().get("y", Float.class);
             position.x /= 50;
             position.y /= 50;
-            BaseEnemy enemy = new BaseEnemy(world, position, textures.get("Enemy_1_atlas"), spriteBatch, stage);
+            BaseEnemy enemy = new BaseEnemy(world, position, textures.get("Enemy_1_atlas"), stage);
             enemies.add(enemy);
+            break;
         }
+
+        initContactListener();
     }
 
     @Override
@@ -119,6 +122,74 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         PhysicsHelper.getInstance().setWorldWall(world, new Vector2(mapWidthIntTiles + wallWidth, 0), wallWidth, mapHeightInTiles);
         PhysicsHelper.getInstance().setWorldWall(world, new Vector2(0, mapHeightInTiles + wallWidth), mapWidthIntTiles, wallWidth);
         PhysicsHelper.getInstance().setWorldWall(world, new Vector2(0, 0 - wallWidth), mapWidthIntTiles, wallWidth);
+    }
+
+    private void initContactListener() {
+        world.setContactListener(new ContactListener() {
+            private void checkEnemySensorForEndContact(Fixture fixture) {
+                if(fixture.getUserData() instanceof String) {
+                    String userData = (String) fixture.getUserData();
+                    Body body = fixture.getBody();
+                    BaseEnemy enemy = (BaseEnemy) body.getUserData();
+                    if(userData.contains("ground")) {
+                        enemy.grounded = false;
+                    } else if(userData.contains("left_wall")) {
+                    } else if(userData.contains("right_wall")) {
+                    } else if(userData.contains("left_pit")) {
+                        enemy.flip();
+                    } else if(userData.contains("right_pit")) {
+                        enemy.flip();
+                    }
+                }
+            }
+
+            private void checkEnemySensorForBeginContact(Fixture fixture) {
+                if(fixture.getUserData() instanceof String) {
+                    String userData = (String) fixture.getUserData();
+                    Body body = fixture.getBody();
+                    BaseEnemy enemy = (BaseEnemy) body.getUserData();
+                    if(userData.contains("ground")) {
+                        enemy.grounded = true;
+                    } else if(userData.contains("left_wall")) {
+                        enemy.flip();
+                    } else if(userData.contains("right_wall")) {
+                        enemy.flip();
+                    } else if(userData.contains("left_pit")) {
+
+                    } else if(userData.contains("right_pit")) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void beginContact(Contact contact) {
+                if (contact.getFixtureA().getBody().getUserData() instanceof BaseEnemy) {
+                    checkEnemySensorForBeginContact(contact.getFixtureA());
+                } else if(contact.getFixtureB().getBody().getUserData() instanceof BaseEnemy) {
+                    checkEnemySensorForBeginContact(contact.getFixtureB());
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+                if (contact.getFixtureA().getBody().getUserData() instanceof BaseEnemy) {
+                    checkEnemySensorForEndContact(contact.getFixtureA());
+                } else if(contact.getFixtureB().getBody().getUserData() instanceof BaseEnemy) {
+                    checkEnemySensorForEndContact(contact.getFixtureB());
+                }
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
     }
 
     private void updateInput() {
