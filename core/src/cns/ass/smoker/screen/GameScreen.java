@@ -59,10 +59,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             position.x /= 50;
             position.y /= 50;
             BaseEnemy enemy = new BaseEnemy(world, position, textures.get("Enemy_1_atlas"), stage);
+            enemy.movementSpeed.mulAdd(enemy.movementSpeed, AbstractScreen.randInt(1, 3));
             enemies.add(enemy);
-            break;
         }
-
         initContactListener();
     }
 

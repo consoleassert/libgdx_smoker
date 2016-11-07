@@ -37,12 +37,15 @@ public class BaseEnemy implements ApplicationListener {
     private float scaleFromBox2dToScreen = 50 * 0.36f;
     float elapsedTime;
     private int movementDirection = new Random().nextBoolean() ? 1 : -1;
-    private Vector2 movementSpeed = new Vector2(2.5f, 0);
+    public Vector2 movementSpeed = new Vector2(2.5f, 0);
     public boolean spawned = false;
     public boolean grounded = false;
 
     public BaseEnemy(World world, Vector2 position, List<TextureRegion> textureRegionList, Stage stage) {
-        this.textureRegionList = textureRegionList;
+        this.textureRegionList = new ArrayList<TextureRegion>();
+        for (TextureRegion textureRegion : textureRegionList) {
+            this.textureRegionList.add(new TextureRegion(textureRegion));
+        }
         this.stage = stage;
         // First we create a body definition
         BodyDef bodyDef = new BodyDef();
@@ -97,30 +100,30 @@ public class BaseEnemy implements ApplicationListener {
         rightWallFixture.setSensor(true);
         rightWallFixture.setUserData(new String("right_wall"));
 
-        sensorShape.setAsBox(0.01f, 0.01f, new Vector2(bodySize.x * -0.5f,  - bodySize.y * 0.6f), body.getAngle());
+        sensorShape.setAsBox(0.01f, 0.01f, new Vector2(bodySize.x * -0.5f, -bodySize.y * 0.6f), body.getAngle());
         FixtureDef leftPitFixtureDef = new FixtureDef();
         leftPitFixtureDef.shape = sensorShape;
         Fixture leftPitFixture = body.createFixture(sensorFixture);
         leftPitFixture.setSensor(true);
         leftPitFixture.setUserData(new String("left_pit"));
 
-        sensorShape.setAsBox(0.01f, 0.01f, new Vector2(bodySize.x * 1.5f,  - bodySize.y * 0.6f), body.getAngle());
+        sensorShape.setAsBox(0.01f, 0.01f, new Vector2(bodySize.x * 1.5f, -bodySize.y * 0.6f), body.getAngle());
         FixtureDef rightPitFixtureDef = new FixtureDef();
         rightPitFixtureDef.shape = sensorShape;
         Fixture rightPitFixture = body.createFixture(rightPitFixtureDef);
         rightPitFixture.setSensor(true);
         rightPitFixture.setUserData(new String("right_pit"));
 
-        body.setUserData(BaseEnemy.this);
+        body.setUserData(this);
 
-        ListIterator<TextureRegion> textureRegionListIterator = textureRegionList.listIterator();
         List<TextureRegion> movementTextureRegionList = new ArrayList<TextureRegion>();
         movementTextureRegionList.add(textureRegionList.get(textureRegionList.size() - 1));
         movementTextureRegionList.add(textureRegionList.get(textureRegionList.size() - 4));
         movementTextureRegionList.add(textureRegionList.get(textureRegionList.size() - 2));
         TextureRegion[] textureRegionsArray = new TextureRegion[movementTextureRegionList.size()];
         movementTextureRegionList.toArray(textureRegionsArray);
-        animation = new Animation(1f/4f, textureRegionsArray);
+        animation = new Animation(1f / 4f, textureRegionsArray);
+        movementDirection = 1;
     }
 
     public void flip() {
@@ -143,42 +146,27 @@ public class BaseEnemy implements ApplicationListener {
 
     public void update(OrthographicCamera camera) {
         stage.getBatch().setProjectionMatrix(camera.combined);
-        if(grounded && !body.isAwake()) {
+        if (grounded && !body.isAwake()) {
             spawned = true;
         }
         if (spawned) {
             movementSpeed.x = Math.abs(movementSpeed.x) * movementDirection;
             body.setLinearVelocity(movementSpeed);
-            Gdx.app.log("BaseEnemy", "ms: " + movementSpeed);
         }
-//        Gdx.app.log("BaseEnemy", String.format("grounded: %b, awake: %b, spawned: %b", grounded, body.isAwake(), spawned));
     }
 
     public void draw() {
-        elapsedTime +=Gdx.graphics.getDeltaTime();
+        elapsedTime += Gdx.graphics.getDeltaTime();
         TextureRegion frame = animation.getKeyFrame(elapsedTime, true);
         Vector2 position = new Vector2();
         position.x = (((body.getPosition().x /*- (bodySize.x * 0.5f )*/) * scaleFromBox2dToScreen)/* - (frame.getRegionWidth() * 0.5f * 0.36f)*/);
         position.y = (((body.getPosition().y /*- (bodySize.y * 0.5f )*/) * scaleFromBox2dToScreen)/* - (frame.getRegionHeight() * 0.5f * 0.36f)*/);
         stage.getBatch().begin();
-        if(movementDirection > 0 && !frame.isFlipX())
-            frame.flip(true, false);
-        else if(movementDirection < 0 && frame.isFlipX())
-            frame.flip(false, false);
-
-        stage.getBatch().draw(frame, position.x, position.y, frame.getRegionWidth() * 0.36f, frame.getRegionHeight() * 0.36f);
+        boolean flip = (movementDirection == 1);
+        float width = frame.getRegionWidth() * 0.36f;
+        float height = frame.getRegionHeight() * 0.36f;
+        stage.getBatch().draw(frame, flip ? position.x+width: position.x, position.y, flip ? -width : width, height);
         stage.getBatch().end();
-
-//        Sprite sprite = new Sprite(textureRegionList.get(0));
-//        stage.getBatch().begin();
-//        sprite.setScale(0.36f);
-//        Vector2 position = new Vector2();
-//        position.x = (((body.getPosition().x - (bodySize.x * 0.5f )) * scaleFromBox2dToScreen) - (sprite.getWidth() * 0.5f * 0.36f));
-//        position.y = (((body.getPosition().y - (bodySize.y * 0.5f )) * scaleFromBox2dToScreen) - (sprite.getHeight() * 0.5f * 0.36f));
-//        sprite.setPosition(position.x, position.y);
-//
-//        sprite.draw(stage.getBatch());
-//        stage.getBatch().end();
     }
 
     @Override

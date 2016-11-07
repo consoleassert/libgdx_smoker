@@ -14,11 +14,10 @@
   </data>
  </layer>
  <objectgroup name="collision">
-  <object id="1" x="2633.33" y="700" width="957.576" height="290.909"/>
+  <object id="1" x="2499.33" y="700" width="1091.58" height="290.909"/>
   <object id="2" x="3651.52" y="500" width="500" height="96.9697"/>
   <object id="3" x="4248.48" y="348.485" width="396.97" height="93.9394"/>
   <object id="4" x="4703.03" y="696.97" width="309.091" height="300"/>
-  <object id="6" x="2500" y="696.97" width="136.364" height="296.97"/>
   <object id="7" x="2145.45" y="500" width="300" height="96.9697"/>
   <object id="8" x="1203.03" y="700" width="900" height="300"/>
   <object id="9" x="-6.06061" y="693.939" width="1003.03" height="303.03"/>
